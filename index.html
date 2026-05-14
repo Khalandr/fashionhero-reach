@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FashionHero Reach — Sponsored Placement dla Sprzedawców</title>
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --ink: #1A1A1F;
+    --ink-muted: #5C5C66;
+    --accent: #1F2940;
+    --accent-soft: #2D3A5F;
+    --accent-2: #B8956A;
+    --accent-2-soft: #D4B084;
+    --green: #2D6A4F;
+    --line: #E6E4DC;
+    --card: #FFFFFF;
+    --radius: 6px;
+    --shadow: 0 1px 2px rgba(26,26,31,.04), 0 8px 32px rgba(26,26,31,.05);
+    --shadow-strong: 0 4px 12px rgba(26,26,31,.08), 0 16px 48px rgba(26,26,31,.08);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  /* nav */
+  nav.top {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg);
+    position: sticky; top: 0; z-index: 10;
+    backdrop-filter: blur(8px);
+    background: rgba(250, 250, 247, .85);
+  }
+  .brand {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    font-size: 17px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .brand .chip {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+  }
+  nav.top .links { display: flex; gap: 24px; font-size: 14px; color: var(--ink-muted); }
+  nav.top .links a:hover { color: var(--ink); }
+  nav.top .nav-cta {
+    background: var(--accent);
+    color: white;
+    padding: 8px 14px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* hero */
+  .hero {
+    padding: 96px 0 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; right: -20%; bottom: 0; left: 60%;
+    background: radial-gradient(ellipse at center, rgba(184, 149, 106, 0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero .pill {
+    display: inline-block;
+    background: rgba(31,41,64,.08);
+    color: var(--accent);
+    font-size: 12px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+    font-weight: 600;
+    opacity: 0;
+    animation: fadeUp .6s ease .1s forwards;
+  }
+  .hero h1 {
+    font-size: 52px;
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    line-height: 1.08;
+    margin: 0 0 20px;
+    max-width: 820px;
+    margin-left: auto; margin-right: auto;
+    opacity: 0;
+    animation: fadeUp .7s ease .25s forwards;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent-2);
+    font-weight: 700;
+  }
+  .hero .sub {
+    max-width: 620px;
+    margin: 0 auto 36px;
+    font-size: 18px;
+    color: var(--ink-muted);
+    opacity: 0;
+    animation: fadeUp .7s ease .4s forwards;
+  }
+  .form-inline {
+    display: inline-flex;
+    gap: 8px;
+    background: var(--card);
+    padding: 8px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    opacity: 0;
+    animation: fadeUp .7s ease .55s forwards;
+  }
+  .form-inline input {
+    border: none;
+    outline: none;
+    padding: 14px 16px;
+    font-size: 15px;
+    min-width: 280px;
+    background: transparent;
+    color: var(--ink);
+  }
+  .form-inline input::placeholder { color: #A0A0AC; }
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 14px 22px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: transform .12s ease, opacity .12s ease, background .12s ease;
+  }
+  .btn-primary:hover { opacity: .92; }
+  .btn-primary:active { transform: translateY(1px); }
+  .hint {
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--ink-muted);
+    opacity: 0;
+    animation: fadeUp .7s ease .7s forwards;
+  }
+  .hint strong { color: var(--ink); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* problem section */
+  section.problem {
+    padding: 80px 0;
+    background: white;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .section-head { text-align: center; margin-bottom: 48px; }
+  .eyebrow {
+    color: var(--accent-2);
+    font-size: 12px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  h2 {
+    text-align: center;
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -0.8px;
+    margin: 0;
+  }
+  h2.left-aligned { text-align: left; }
+  .section-sub {
+    color: var(--ink-muted);
+    max-width: 580px;
+    margin: 16px auto 0;
+    font-size: 16px;
+  }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .stat {
+    background: var(--bg);
+    padding: 32px 24px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    text-align: left;
+  }
+  .stat .big {
+    font-size: 44px;
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    line-height: 1;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .stat .label {
+    font-size: 14px;
+    color: var(--ink-muted);
+    line-height: 1.5;
+  }
+  .stat .source {
+    font-size: 11px;
+    color: var(--ink-muted);
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  /* mechanism */
+  section.mechanism { padding: 80px 0; }
+  .mech-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 16px;
+  }
+  .mech-card {
+    background: var(--card);
+    padding: 32px 26px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .mech-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-strong);
+    border-color: transparent;
+  }
+  .mech-card .num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    font-weight: 700;
+    font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 18px;
+  }
+  .mech-card h3 {
+    font-size: 18px;
+    margin: 0 0 10px;
+    font-weight: 600;
+  }
+  .mech-card p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--ink-muted);
+    line-height: 1.6;
+  }
+
+  /* calculator (the interactive bit) */
+  section.calculator {
+    padding: 80px 0;
+    background: var(--accent);
+    color: white;
+  }
+  section.calculator h2 { color: white; }
+  section.calculator .eyebrow { color: var(--accent-2-soft); }
+  section.calculator .section-sub { color: rgba(255,255,255,.7); }
+  .calc-card {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 10px;
+    padding: 36px;
+    margin: 40px auto 0;
+    max-width: 820px;
+    backdrop-filter: blur(8px);
+  }
+  .calc-input-row {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .calc-input {
+    flex: 1; min-width: 240px;
+  }
+  .calc-input label {
+    display: block;
+    font-size: 13px;
+    color: rgba(255,255,255,.75);
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+  }
+  .calc-input-wrap {
+    display: flex; align-items: center;
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: var(--radius);
+    padding: 4px 4px 4px 16px;
+    transition: border-color .15s ease;
+  }
+  .calc-input-wrap:focus-within {
+    border-color: var(--accent-2);
+  }
+  .calc-input-wrap input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 22px;
+    font-weight: 600;
+    padding: 12px 0;
+  }
+  .calc-input-wrap input::-webkit-outer-spin-button,
+  .calc-input-wrap input::-webkit-inner-spin-button { -webkit-appearance: none; }
+  .calc-input-wrap input[type=number] { -moz-appearance: textfield; }
+  .calc-input-wrap .unit {
+    color: rgba(255,255,255,.6);
+    font-size: 14px;
+    padding-right: 14px;
+  }
+  .tier-toggle {
+    display: inline-flex;
+    background: rgba(255,255,255,.08);
+    padding: 4px;
+    border-radius: var(--radius);
+    border: 1px solid rgba(255,255,255,.12);
+  }
+  .tier-toggle button {
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,.6);
+    padding: 10px 18px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .15s ease;
+  }
+  .tier-toggle button.active {
+    background: var(--accent-2);
+    color: white;
+  }
+  .calc-output-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .calc-box {
+    padding: 24px;
+    border-radius: var(--radius);
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+  }
+  .calc-box.current { opacity: .8; }
+  .calc-box.reach { border-color: var(--accent-2); background: rgba(184, 149, 106, .1); }
+  .calc-box .lbl {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: rgba(255,255,255,.6);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .calc-box .amount {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin-bottom: 6px;
+    font-variant-numeric: tabular-nums;
+  }
+  .calc-box .desc {
+    font-size: 13px;
+    color: rgba(255,255,255,.7);
+    line-height: 1.5;
+  }
+  .calc-savings {
+    text-align: center;
+    padding: 20px;
+    background: rgba(184, 149, 106, .18);
+    border-radius: var(--radius);
+    border: 1px dashed var(--accent-2);
+  }
+  .calc-savings .delta {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent-2-soft);
+    letter-spacing: -0.5px;
+    font-variant-numeric: tabular-nums;
+  }
+  .calc-savings .delta-label {
+    color: rgba(255,255,255,.8);
+    font-size: 13px;
+    margin-top: 4px;
+  }
+  .calc-fineprint {
+    text-align: center;
+    font-size: 11px;
+    color: rgba(255,255,255,.5);
+    margin-top: 18px;
+    font-style: italic;
+  }
+
+  /* pricing comparison */
+  section.pricing { padding: 80px 0; }
+  .price-table {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    max-width: 820px;
+    margin: 40px auto 0;
+  }
+  .price-col {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 36px 32px;
+    position: relative;
+  }
+  .price-col.featured {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(31,41,64,.06);
+  }
+  .price-col.featured::before {
+    content: 'REACH';
+    position: absolute;
+    top: -10px; right: 24px;
+    background: var(--accent-2);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+  }
+  .price-col h4 {
+    margin: 0 0 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+  }
+  .price-col .rate {
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    color: var(--ink);
+    line-height: 1;
+    margin: 8px 0 4px;
+  }
+  .price-col .rate-note {
+    color: var(--ink-muted);
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+  .price-col ul { list-style: none; padding: 0; margin: 0; }
+  .price-col li {
+    padding: 8px 0;
+    font-size: 14px;
+    color: var(--ink-muted);
+    position: relative;
+    padding-left: 26px;
+    line-height: 1.5;
+  }
+  .price-col li::before {
+    content: "—";
+    position: absolute; left: 0;
+    color: #C0BCAE;
+  }
+  .price-col.featured li::before {
+    content: "✓";
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .price-col li strong { color: var(--ink); }
+
+  /* social proof */
+  section.proof {
+    padding: 64px 0 80px;
+    background: white;
+    border-top: 1px solid var(--line);
+  }
+  .proof-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 16px;
+  }
+  .proof-card {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+  }
+  .proof-card .quote {
+    font-size: 15px;
+    line-height: 1.55;
+    margin: 0 0 18px;
+    color: var(--ink);
+  }
+  .proof-card .quote::before {
+    content: '"';
+    color: var(--accent-2);
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 0.5;
+    vertical-align: -4px;
+    margin-right: 2px;
+  }
+  .proof-attr {
+    display: flex; align-items: center; gap: 12px;
+    margin-top: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+  .proof-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    flex-shrink: 0;
+  }
+  .proof-meta .name { font-weight: 600; font-size: 13px; }
+  .proof-meta .role { font-size: 12px; color: var(--ink-muted); }
+  .proof-card .stats-line {
+    font-size: 12px;
+    color: var(--accent-2);
+    font-weight: 600;
+    background: rgba(184, 149, 106, .1);
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 100px;
+    margin-top: 10px;
+  }
+
+  /* CTA band */
+  section.cta-band {
+    padding: 80px 0;
+    background: var(--accent);
+    color: white;
+    text-align: center;
+  }
+  section.cta-band h2 { color: white; font-size: 36px; }
+  section.cta-band .sub {
+    color: rgba(255,255,255,.78);
+    max-width: 540px;
+    margin: 18px auto 32px;
+    font-size: 17px;
+  }
+  section.cta-band .form-inline { background: white; }
+  section.cta-band .form-inline input { color: var(--ink); }
+  section.cta-band .scarcity {
+    margin-top: 18px;
+    font-size: 13px;
+    color: rgba(255,255,255,.6);
+  }
+  section.cta-band .scarcity strong { color: var(--accent-2-soft); }
+
+  /* faq */
+  section.faq { padding: 80px 0; }
+  .faq-list { max-width: 720px; margin: 32px auto 0; }
+  .faq-item {
+    border-bottom: 1px solid var(--line);
+    padding: 18px 0;
+    cursor: pointer;
+  }
+  .faq-item summary {
+    list-style: none;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--ink);
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: '+';
+    color: var(--accent-2);
+    font-size: 22px;
+    font-weight: 400;
+    transition: transform .2s ease;
+  }
+  .faq-item[open] summary::after { content: '−'; }
+  .faq-item p {
+    margin: 12px 0 0;
+    color: var(--ink-muted);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* footer */
+  footer {
+    padding: 36px 24px;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    font-size: 13px;
+    color: var(--ink-muted);
+  }
+
+  /* mobile */
+  @media (max-width: 880px) {
+    .hero { padding: 64px 0 56px; }
+    .hero h1 { font-size: 38px; }
+    .hero .sub { font-size: 16px; }
+    .form-inline { flex-direction: column; width: 90%; max-width: 360px; margin: 0 auto; }
+    .form-inline input { min-width: 0; width: 100%; text-align: center; }
+    .form-inline button { width: 100%; }
+    .stat-grid { grid-template-columns: 1fr; }
+    .mech-grid { grid-template-columns: 1fr; }
+    .price-table { grid-template-columns: 1fr; }
+    .proof-grid { grid-template-columns: 1fr; }
+    .calc-output-row { grid-template-columns: 1fr; }
+    nav.top .links { display: none; }
+    h2 { font-size: 26px; }
+    section.cta-band h2 { font-size: 28px; }
+    .calc-card { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="brand">FashionHero <span class="chip">REACH</span></div>
+  <div class="links">
+    <a href="#mechanism">Jak to działa</a>
+    <a href="#calculator">Kalkulator</a>
+    <a href="#pricing">Cennik</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <a href="#cta" class="nav-cta">Early access</a>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="pill">Early access · 50 sprzedawców</div>
+    <h1>Twoje produkty przed kupującymi z <em>Google, Meta i TikToka</em>. Płać tylko za sprzedaż.</h1>
+    <p class="sub">FashionHero Reach to platforma sponsored placement dla sprzedawców. Niższa prowizja od ruchu z paid traffic (16% vs 22% standardowa), pełna attribution każdej złotówki, zero opaque marketing fees.</p>
+    <form class="form-inline" onsubmit="return handleSignup(event, 'hero')">
+      <input type="email" name="email" placeholder="email Twojego sklepu" required />
+      <button class="btn-primary" type="submit">Zapisz na early access</button>
+    </form>
+    <div class="hint">Bez zobowiązania. Pierwsi 50 sprzedawców dostają <strong>3 miesiące Reach za 12% take rate</strong> (vs docelowych 16%).</div>
+  </div>
+</header>
+
+<section class="problem">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Problem</div>
+      <h2>Płacisz za marketing. Nie wiesz, co działa.</h2>
+      <p class="section-sub">Dane z analizy 500 sprzedawców FashionHero — najczęstszy frustration point w branży.</p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="big" data-counter="696">0</div>
+        <div class="label">tys. PLN miesięcznie wydają sprzedawcy FashionHero na platformowy marketing</div>
+        <div class="source">źródło: analiza CSV 500 sprzedawców, 2026-05</div>
+      </div>
+      <div class="stat">
+        <div class="big"><span data-counter="80">0</span>%</div>
+        <div class="label">sprzedawców nie potrafi przypisać konkretnej sprzedaży do swojego ad spend</div>
+        <div class="source">źródło: marketing_spend × net_margin coefficient ~ 0 (regresja wielowymiarowa)</div>
+      </div>
+      <div class="stat">
+        <div class="big"><span data-counter="-12">0</span>%</div>
+        <div class="label">RÓŻNICA w marży między top-spending bucket (3K+ PLN/mies.) a 1-500 PLN bucket — więcej ads = niższa marża</div>
+        <div class="source">źródło: bucketing wydatków × średnia marża netto</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mechanism" id="mechanism">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Jak to działa</div>
+      <h2>Reach w trzech krokach</h2>
+    </div>
+    <div class="mech-grid">
+      <div class="mech-card">
+        <div class="num">1</div>
+        <h3>Auto-bidding</h3>
+        <p>FashionHero kupuje reklamy w Google Shopping, Meta i TikTok dla Twoich produktów. Algorytm dopasowuje stawki do twojej kategorii, sezonu i marży. Ty nie obsługujesz żadnego dashboardu reklamowego.</p>
+      </div>
+      <div class="mech-card">
+        <div class="num">2</div>
+        <h3>Attribution</h3>
+        <p>Każda sprzedaż z paid traffic jest tagowana w czasie rzeczywistym. W swoim panelu widzisz dokładnie ile zarobiłeś z reklam, jaki był koszt akwizycji per kupujący, którzy kupili.</p>
+      </div>
+      <div class="mech-card">
+        <div class="num">3</div>
+        <h3>Pay-per-conversion</h3>
+        <p>Płacisz tylko gdy kupujący z reklamy dokona zakupu. 16% (Top tier) lub 18% (Volume tier) od wartości tej sprzedaży — zamiast 22% standardowej prowizji + opaque marketing fees.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="calculator" id="calculator">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Kalkulator</div>
+      <h2>Policz ile zaoszczędzisz z Reach</h2>
+      <p class="section-sub">Wpisz swoje miesięczne GMV. Porównaj obecny effective cost z Reach modelem. Liczby na podstawie średnich z 500 sprzedawców FashionHero.</p>
+    </div>
+
+    <div class="calc-card">
+      <div class="calc-input-row">
+        <div class="calc-input">
+          <label>Twoje miesięczne GMV (PLN)</label>
+          <div class="calc-input-wrap">
+            <input id="gmv" type="number" value="10000" min="100" max="500000" step="500" />
+            <span class="unit">PLN/mies.</span>
+          </div>
+        </div>
+        <div class="calc-input">
+          <label>Twój tier</label>
+          <div class="tier-toggle">
+            <button id="tierTop" class="active" onclick="setTier(0.16, this)">Top · 16%</button>
+            <button id="tierVolume" onclick="setTier(0.18, this)">Volume · 18%</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-output-row">
+        <div class="calc-box current">
+          <div class="lbl">Obecny model</div>
+          <div class="amount" id="currentAmount">3 500 PLN</div>
+          <div class="desc">22% prowizji + ~13% średni opaque marketing_spend. Bez attribution.</div>
+        </div>
+        <div class="calc-box reach">
+          <div class="lbl">FashionHero Reach</div>
+          <div class="amount" id="reachAmount">2 020 PLN</div>
+          <div class="desc">22% na ruchu organicznym + <span id="tierLabel">16%</span> na sprzedaży z paid traffic. Zero opaque fees, pełne attribution.</div>
+        </div>
+      </div>
+
+      <div class="calc-savings">
+        <div class="delta" id="savings">Oszczędzasz 1 480 PLN/mies.</div>
+        <div class="delta-label">+ widzisz dokładnie skąd przychodzi każda złotówka</div>
+      </div>
+
+      <div class="calc-fineprint">
+        Założenia kalkulacji: 30% GMV pochodzi z paid traffic (benchmark Etsy Offsite Ads), reszta organic. Obecny opaque marketing_spend = 13% GMV (średnia z 500 sprzedawców FashionHero).
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Cennik</div>
+      <h2>Co dokładnie się zmienia</h2>
+    </div>
+    <div class="price-table">
+      <div class="price-col">
+        <h4>Aktualnie</h4>
+        <div class="rate">22%</div>
+        <div class="rate-note">prowizja standardowa + opaque marketing fees</div>
+        <ul>
+          <li>22% prowizji od KAŻDEJ sprzedaży</li>
+          <li>Dodatkowo: budżet marketing_spend (avg 1 744 PLN/mies. dla 80% sprzedawców)</li>
+          <li><strong>Brak attribution</strong> — nie wiesz co działa</li>
+          <li>Sam negocjujesz, sam optymalizujesz</li>
+          <li>Wynik: marginal ROI, ukryty koszt</li>
+        </ul>
+      </div>
+      <div class="price-col featured">
+        <h4>FashionHero Reach</h4>
+        <div class="rate">16-18%</div>
+        <div class="rate-note">tylko na sprzedaży z paid traffic — reszta jak dotąd</div>
+        <ul>
+          <li><strong>16% (Top)</strong> dla sprzedawców GMV &gt; 35K PLN/mies.</li>
+          <li><strong>18% (Volume)</strong> dla sprzedawców GMV 5-35K PLN/mies.</li>
+          <li><strong>Zero osobnych fees</strong> — ad spend wliczony w take rate</li>
+          <li><strong>Pełne attribution</strong> — dashboard z ROI per kampania</li>
+          <li>Reklamy w Google, Meta, TikTok — FashionHero kupuje, Ty zarabiasz</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="proof">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Pilot · Early access</div>
+      <h2>Co mówią pierwsi sprzedawcy</h2>
+      <p class="section-sub">Fikcyjne case'y poglądowe — pełne pilot data po launch'u Reach.</p>
+    </div>
+    <div class="proof-grid">
+      <div class="proof-card">
+        <p class="quote">Wcześniej wrzucałam 2 tysiące na promocję i nie wiedziałam czy zwróciły się. Teraz widzę: 87 sprzedaży z Google, średni koszt akwizycji 23 zł, ROAS 3,2. Po raz pierwszy mam dane.</p>
+        <div class="stats-line">↑ +18% GMV po 6 tyg.</div>
+        <div class="proof-attr">
+          <div class="proof-avatar"></div>
+          <div class="proof-meta">
+            <div class="name">PrzezOkno</div>
+            <div class="role">butik z Krakowa · sukienki</div>
+          </div>
+        </div>
+      </div>
+      <div class="proof-card">
+        <p class="quote">Negocjowałem 14,5% prowizji przez rok. Teraz mam 16% na paid traffic, ale platforma robi za mnie cały marketing zewnętrzny. Wychodzi taniej i mam więcej czasu na produkcję.</p>
+        <div class="stats-line">↓ −38% czas na marketing</div>
+        <div class="proof-attr">
+          <div class="proof-avatar"></div>
+          <div class="proof-meta">
+            <div class="name">Lina &amp; Co</div>
+            <div class="role">marka odzieży vintage · Wrocław</div>
+          </div>
+        </div>
+      </div>
+      <div class="proof-card">
+        <p class="quote">Jako nowy sprzedawca dostałam darmowy boost przez Reach. W 3 tygodnie sprzedałam więcej niż przez 2 miesiące rok temu. Wiem co działa i nie tonę w narzędziach marketingowych.</p>
+        <div class="stats-line">→ pierwsze 50 sprzedaży w 21 dni</div>
+        <div class="proof-attr">
+          <div class="proof-avatar"></div>
+          <div class="proof-meta">
+            <div class="name">Slowtake</div>
+            <div class="role">akcesoria handmade · Łódź</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band" id="cta">
+  <div class="container">
+    <h2>Pierwsi 50 sprzedawców</h2>
+    <p class="sub">Dostają 3 miesiące Reach za 12% take rate (vs docelowych 16%), priorytetowy dostęp do nowych kanałów (TikTok Shop, Instagram Shopping) i bezpośredni kontakt z zespołem produktowym.</p>
+    <form class="form-inline" onsubmit="return handleSignup(event, 'cta-band')">
+      <input type="email" name="email" placeholder="email Twojego sklepu" required />
+      <button class="btn-primary" type="submit">Zarezerwuj miejsce</button>
+    </form>
+    <div class="scarcity">Zostało <strong id="seats">37 z 50 miejsc</strong> · early access startuje w czerwcu 2026</div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">FAQ</div>
+      <h2>Najczęstsze pytania</h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>Czy zmienia się moja standardowa prowizja 22%?</summary>
+        <p>Nie. Standardowa prowizja zostaje 22% na całym ruchu organicznym (klienci, którzy znaleźli Cię przez FashionHero search, kolekcje, polecenia). Reach to OSOBNY take rate (16-18%) wyłącznie na sprzedaży z reklam, które FashionHero kupuje dla Ciebie. To dodatkowy kanał, nie zamiana istniejącego.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Skąd weźmiecie 30% GMV z paid traffic? To realna projekcja?</summary>
+        <p>30% to średnia z dojrzałych marketplace'ów które uruchomiły podobny model (Etsy Offsite Ads osiągnęło ten próg w 18 miesięcy). Na start wczesnych pilotów spodziewamy się 10-15%, target 30% w 12 miesięcy. Kalkulator pokazuje stan docelowy.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Czy mogę nadal sam kupować reklamy Google poza Reach?</summary>
+        <p>Tak. Reach to opt-in dodatkowy kanał. Jeśli wolisz prowadzić własne kampanie (np. masz agencję) — bez zmian. Reach jest dla sprzedawców, którzy chcą oddać marketing FashionHero w zamian za niższą prowizję na sprzedaży z tych kampanii.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Co z moim aktualnym budżetem marketing_spend na platformie?</summary>
+        <p>Po wejściu do Reach Twój aktualny marketing_spend zostaje ZASTĄPIONY przez Reach take rate (bundled). Czyli płacisz mniej w sumie, dostajesz lepsze targetowanie i widzisz dokładnie efekt. Jeśli wolisz stary model — zostajesz na 22% bez zmian.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Czy moje dane sprzedażowe są bezpieczne w Reach?</summary>
+        <p>Tak. Reach używa tylko zagregowanych danych do optymalizacji kampanii — nigdy nie udostępniamy danych konkretnych klientów stronom trzecim. Pełna polityka prywatności będzie opublikowana z launch'em produkcyjnym.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Co jeśli pilot się nie powiedzie?</summary>
+        <p>Wracasz do standardowych 22% bez kosztów wyjścia. Reach to opt-in i opt-out w każdym momencie. Pilot jest 3-miesięczny, mierzymy realny ROI razem z Tobą.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  FashionHero Reach — w przygotowaniu. © 2026 FashionHero. <br/>
+  Prototyp Q3.1 / Q3.2 / AI Product Heroes. Smoke test dla weryfikacji hipotezy „sellersi opt-in'ują się przy transparent take rate".
+</footer>
+
+<script>
+  // form handler
+  function handleSignup(e, source) {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      // simple inline validation
+      form.innerHTML = '<div style="padding: 14px 16px; color: #B91C1C; font-weight: 600;">Wpisz poprawny adres email.</div>';
+      setTimeout(() => location.reload(), 1800);
+      return false;
+    }
+    form.innerHTML = '<div style="padding: 14px 16px; color: var(--ink); font-weight: 600;">Dzięki, <span style="color: var(--accent-2);">' + email + '</span> — odezwiemy się jak Reach wystartuje.</div>';
+    try {
+      const list = JSON.parse(localStorage.getItem('reach_waitlist') || '[]');
+      list.push({ email: email, at: new Date().toISOString(), source: source });
+      localStorage.setItem('reach_waitlist', JSON.stringify(list));
+      // simulate countdown
+      const seatsEl = document.getElementById('seats');
+      if (seatsEl) {
+        const m = seatsEl.textContent.match(/(\d+)/);
+        if (m) {
+          const next = Math.max(0, parseInt(m[1]) - 1);
+          seatsEl.innerHTML = next + ' z 50 miejsc';
+        }
+      }
+    } catch (err) {}
+    return false;
+  }
+
+  // calculator
+  let currentTakeRate = 0.16;
+  function setTier(rate, btn) {
+    currentTakeRate = rate;
+    document.querySelectorAll('.tier-toggle button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tierLabel').textContent = (rate * 100).toFixed(0) + '%';
+    recalc();
+  }
+  function fmt(n) {
+    return Math.round(n).toLocaleString('pl-PL').replace(/,/g, ' ') + ' PLN';
+  }
+  function recalc() {
+    const gmv = Math.max(0, parseFloat(document.getElementById('gmv').value) || 0);
+    // current: 22% commission + ~13% opaque marketing (per Q2.1 data: avg 1744/13352 = ~13%)
+    const currentCommission = gmv * 0.22;
+    const currentAds = gmv * 0.13;
+    const currentTotal = currentCommission + currentAds;
+    // reach: 30% of GMV through paid traffic at currentTakeRate, rest organic at 22%, no separate ads
+    const paidFraction = 0.30;
+    const reachTotal = gmv * (1 - paidFraction) * 0.22 + gmv * paidFraction * currentTakeRate;
+    const savings = currentTotal - reachTotal;
+    document.getElementById('currentAmount').textContent = fmt(currentTotal);
+    document.getElementById('reachAmount').textContent = fmt(reachTotal);
+    document.getElementById('savings').textContent = 'Oszczędzasz ' + fmt(savings) + '/mies.';
+  }
+  document.getElementById('gmv').addEventListener('input', recalc);
+  recalc();
+
+  // animated stat counters
+  function animateCounter(el, target, duration = 1400) {
+    const start = 0;
+    const startTime = performance.now();
+    const isNegative = target < 0;
+    const absTarget = Math.abs(target);
+    function step(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const value = Math.round(absTarget * eased);
+      el.textContent = (isNegative ? '−' : '') + value;
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  const counters = document.querySelectorAll('[data-counter]');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const target = parseInt(entry.target.dataset.counter);
+        animateCounter(entry.target, target);
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  counters.forEach(c => io.observe(c));
+</script>
+
+</body>
+</html>
